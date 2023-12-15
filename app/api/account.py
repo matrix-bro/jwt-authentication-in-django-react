@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from rest_framework import serializers,status
 from django.contrib.auth import get_user_model
 from app.services.account_services import create_user_account
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 User = get_user_model()
 
 class RegisterView(APIView):
@@ -23,11 +25,23 @@ class RegisterView(APIView):
             attrs.pop('confirm_password')   # Removing confirm_password from validated_data
 
             return attrs
-
+        
+    """
+        POST: Creates user account
+    """
     def post(self, request):
         serializer = self.InputSerializer(data=request.data)
 
         serializer.is_valid(raise_exception=True)
+
+        password = serializer.validated_data['password']
+
+        try:
+            validate_password(password, request.user)
+        except ValidationError as e:
+            return Response({
+                'password': e.messages
+            }, status=status.HTTP_400_BAD_REQUEST)
 
         user = create_user_account(**serializer.validated_data)
 
