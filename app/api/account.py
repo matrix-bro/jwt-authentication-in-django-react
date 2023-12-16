@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import serializers,status
+from rest_framework import serializers,status, permissions
 from django.contrib.auth import get_user_model
 from app.services.account_services import create_user_account
 from django.contrib.auth.password_validation import validate_password
@@ -52,3 +52,21 @@ class RegisterView(APIView):
             'data': response.data,
             'status': status.HTTP_201_CREATED,
         }, status=status.HTTP_201_CREATED)
+    
+
+class RetreiveUserView(APIView):
+    class OutputSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = User
+            fields = ('first_name', 'last_name', 'email')
+
+
+    permission_classes = [permissions.IsAuthenticated]
+    """
+        GET: Displays logged in user details
+    """
+    def get(self, request):
+        user = request.user
+        response = self.OutputSerializer(user)
+
+        return Response(response.data, status=status.HTTP_200_OK)
