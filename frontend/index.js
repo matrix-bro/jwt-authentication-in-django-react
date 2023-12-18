@@ -1,7 +1,11 @@
 const express = require("express");
 const path = require("path");
 
+const registerRoute = require("./routes/auth/register");
+
 const app = express();
+
+app.use(registerRoute);
 
 app.use(express.static("project/dist"));
 app.get("*", (req, res) => {
