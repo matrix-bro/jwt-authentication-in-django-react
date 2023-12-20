@@ -17,7 +17,7 @@ const Login = () => {
   });
 
   // After registration, we navigate to this page with registered to true
-  // So, we can go to register page unless registered is false
+  // So, we can't go to register page unless registered is false
   useEffect(() => {
     if (registered) {
       dispatch(resetRegistered());
