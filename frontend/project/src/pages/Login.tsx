@@ -1,7 +1,11 @@
 import { useState } from "react";
 import Layout from "../components/Layout";
+import { useAppDispatch } from "../hooks";
+import { login } from "../features/authSlice";
 
 const Login = () => {
+  const dispatch = useAppDispatch();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -12,12 +16,13 @@ const Login = () => {
   const onChange = (e: any) => {
     setFormData({
       ...formData,
-      [e.target.name]: [e.target.value],
+      [e.target.name]: e.target.value,
     });
   };
 
   const onSubmit = (e: any) => {
     e.preventDefault();
+    dispatch(login({ email, password }));
   };
 
   return (

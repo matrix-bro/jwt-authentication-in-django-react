@@ -120,6 +120,16 @@ const authSlice = createSlice({
       })
       .addCase(register.rejected, (state) => {
         state.loading = false;
+      })
+      .addCase(login.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(login.fulfilled, (state) => {
+        state.loading = false;
+        state.isAuthenticated = true;
+      })
+      .addCase(login.rejected, (state) => {
+        state.loading = false;
       });
   },
 });
