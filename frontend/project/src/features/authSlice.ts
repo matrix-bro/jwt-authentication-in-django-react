@@ -38,7 +38,39 @@ export const register = createAsyncThunk(
 
       const response = await axios.post(url, data, config);
 
-      if (response.status == 201) {
+      if (response.status === 201) {
+        return response.data;
+      } else {
+        return thunkAPI.rejectWithValue(response.data);
+      }
+    } catch (error: any) {
+      console.log(error);
+      console.log(error.response.data);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const login = createAsyncThunk(
+  "auth/login",
+  async (
+    { email, password }: { email: string; password: string },
+    thunkAPI
+  ) => {
+    try {
+      const url = "/api/login";
+
+      const data = JSON.stringify({ email, password });
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      const response = await axios.post(url, data, config);
+
+      if (response.status === 200) {
         return response.data;
       } else {
         return thunkAPI.rejectWithValue(response.data);
