@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const registerRoute = require("./routes/auth/register");
 const loginRoute = require("./routes/auth/login");
+const logoutRoute = require("./routes/auth/logout");
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(express.json()); // middleware
 
 app.use(registerRoute);
 app.use(loginRoute);
+app.use(logoutRoute);
 
 app.use(express.static("project/dist"));
 app.get("*", (req, res) => {

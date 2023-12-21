@@ -94,6 +94,8 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
       return thunkAPI.rejectWithValue(response.data);
     }
   } catch (error: any) {
+    console.log(error);
+    console.log(error.response.data);
     return thunkAPI.rejectWithValue(error.response.data);
   }
 });
