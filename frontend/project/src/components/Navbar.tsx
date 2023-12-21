@@ -1,8 +1,10 @@
 import { Link, NavLink } from "react-router-dom";
-import { useAppSelector } from "../hooks";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { logout } from "../features/authSlice";
 
 const Navbar = () => {
   const { isAuthenticated } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
 
   return (
     <>
@@ -13,20 +15,24 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="space-x-6">
+          <NavLink to="/" className="text-lg font-semibold hover:text-gray-500">
+            Home
+          </NavLink>
           {isAuthenticated && (
             <>
-              <NavLink
-                to="/"
-                className="text-lg font-semibold hover:text-gray-500"
-              >
-                Home
-              </NavLink>
               <NavLink
                 to="/dashboard"
                 className="text-lg font-semibold hover:text-gray-500"
               >
                 Dashboard
               </NavLink>
+              <a
+                href="#"
+                className="px-6 py-3 text-lg font-semibold bg-red-300 hover:bg-red-500"
+                onClick={() => dispatch(logout())}
+              >
+                Logout
+              </a>
             </>
           )}
 

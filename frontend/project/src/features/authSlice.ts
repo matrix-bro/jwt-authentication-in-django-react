@@ -83,6 +83,21 @@ export const login = createAsyncThunk(
   }
 );
 
+export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
+  try {
+    const url = "/api/logout";
+    const response = await axios.get(url);
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      return thunkAPI.rejectWithValue(response.data);
+    }
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+});
+
 interface AuthState {
   isAuthenticated: boolean;
   user: {
@@ -129,6 +144,17 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
       })
       .addCase(login.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(logout.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.loading = false;
+        state.isAuthenticated = false;
+        state.user = null;
+      })
+      .addCase(logout.rejected, (state) => {
         state.loading = false;
       });
   },
