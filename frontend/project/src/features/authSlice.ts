@@ -112,8 +112,8 @@ export const verifyAuth = createAsyncThunk(
         return thunkAPI.rejectWithValue(response.data);
       }
     } catch (error: any) {
-      console.log(error);
-      console.log(error.response.data);
+      // console.log(error);
+      // console.log(error.response.data);
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
@@ -176,6 +176,16 @@ const authSlice = createSlice({
         state.user = null;
       })
       .addCase(logout.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(verifyAuth.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(verifyAuth.fulfilled, (state) => {
+        state.loading = false;
+        state.isAuthenticated = true;
+      })
+      .addCase(verifyAuth.rejected, (state) => {
         state.loading = false;
       });
   },

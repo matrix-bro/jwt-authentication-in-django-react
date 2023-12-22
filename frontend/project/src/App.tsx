@@ -13,6 +13,7 @@ const App = () => {
   useEffect(() => {
     dispatch(verifyAuth());
   }, []);
+
   return (
     <>
       <Router>
