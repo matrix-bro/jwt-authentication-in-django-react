@@ -3,8 +3,16 @@ import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import { useAppDispatch } from "./hooks";
+import { useEffect } from "react";
+import { verifyAuth } from "./features/authSlice";
 
 const App = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(verifyAuth());
+  }, []);
   return (
     <>
       <Router>

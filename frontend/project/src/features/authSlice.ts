@@ -100,6 +100,25 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   }
 });
 
+export const verifyAuth = createAsyncThunk(
+  "auth/verify",
+  async (_, thunkAPI) => {
+    try {
+      const response = await axios.get("/api/token/verify");
+
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        return thunkAPI.rejectWithValue(response.data);
+      }
+    } catch (error: any) {
+      console.log(error);
+      console.log(error.response.data);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
 interface AuthState {
   isAuthenticated: boolean;
   user: {
