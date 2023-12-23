@@ -71,6 +71,7 @@ export const login = createAsyncThunk(
       const response = await axios.post(url, data, config);
 
       if (response.status === 200) {
+        thunkAPI.dispatch(getUser());
         return response.data;
       } else {
         return thunkAPI.rejectWithValue(response.data);
