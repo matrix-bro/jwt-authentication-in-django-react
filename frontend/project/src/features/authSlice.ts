@@ -119,6 +119,24 @@ export const verifyAuth = createAsyncThunk(
   }
 );
 
+export const getUser = createAsyncThunk(
+  "auth/users/me",
+  async (_, thunkAPI) => {
+    try {
+      const response = await axios.get("api/users/me");
+
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        return thunkAPI.rejectWithValue(response.data);
+      }
+    } catch (error: any) {
+      console.log(error.response.data);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
 interface AuthState {
   isAuthenticated: boolean;
   user: {
@@ -186,6 +204,16 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
       })
       .addCase(verifyAuth.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(getUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(getUser.rejected, (state) => {
         state.loading = false;
       });
   },
