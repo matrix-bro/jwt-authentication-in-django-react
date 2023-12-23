@@ -108,6 +108,8 @@ export const verifyAuth = createAsyncThunk(
       const response = await axios.get("/api/token/verify");
 
       if (response.status === 200) {
+        thunkAPI.dispatch(getUser());
+
         return response.data;
       } else {
         return thunkAPI.rejectWithValue(response.data);
@@ -132,7 +134,7 @@ export const getUser = createAsyncThunk(
         return thunkAPI.rejectWithValue(response.data);
       }
     } catch (error: any) {
-      console.log(error.response.data);
+      // console.log(error.response.data);
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }

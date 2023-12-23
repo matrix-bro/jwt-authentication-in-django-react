@@ -18,7 +18,7 @@ router.get("/api/users/me", async (req, res) => {
 
     return res.status(response.status).json(response.data);
   } catch (error) {
-    console.log(error.response.data);
+    // console.log(error.response.data);
     return res.status(500).json({
       error: "Something went wrong when retrieving the user.",
     });
