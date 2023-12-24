@@ -7,7 +7,8 @@ const Dashboard = () => {
     (state) => state.auth
   );
 
-  if (!isAuthenticated && !loading) return <Navigate to="/login" />;
+  if (!isAuthenticated && !loading && user !== null)
+    return <Navigate to="/login" />;
 
   return (
     <>
