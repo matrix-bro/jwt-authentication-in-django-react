@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, Navigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { logout } from "../features/authSlice";
 
@@ -29,7 +29,10 @@ const Navbar = () => {
               <a
                 href="#"
                 className="px-6 py-3 text-lg font-semibold bg-red-300 hover:bg-red-500"
-                onClick={() => dispatch(logout())}
+                onClick={() => {
+                  dispatch(logout());
+                  <Navigate to="/login" />;
+                }}
               >
                 Logout
               </a>

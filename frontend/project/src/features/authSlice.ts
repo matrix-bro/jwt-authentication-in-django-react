@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { showAlert } from "./alertSlice";
 
 export const register = createAsyncThunk(
   "auth/register",
@@ -72,6 +73,11 @@ export const login = createAsyncThunk(
 
       if (response.status === 200) {
         thunkAPI.dispatch(getUser());
+
+        thunkAPI.dispatch(
+          showAlert({ msg: "Login Successfull.", type: "success" })
+        );
+
         return response.data;
       } else {
         return thunkAPI.rejectWithValue(response.data);
