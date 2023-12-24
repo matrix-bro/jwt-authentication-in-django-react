@@ -20,8 +20,9 @@ const Layout = ({ title, content, children }: Props) => {
         <meta name="description" content={content} />
       </Helmet>
       <Navbar />
+
       {msg && type && <Alert msg={msg} type={type} />}
-      {/* <Alert /> */}
+
       <div className="px-6 py-6">{children}</div>
     </>
   );

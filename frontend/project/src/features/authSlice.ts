@@ -40,6 +40,13 @@ export const register = createAsyncThunk(
       const response = await axios.post(url, data, config);
 
       if (response.status === 201) {
+        thunkAPI.dispatch(
+          showAlert({
+            msg: "Registration Successfull. Now, you can login.",
+            type: "success",
+          })
+        );
+
         return response.data;
       } else {
         return thunkAPI.rejectWithValue(response.data);

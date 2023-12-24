@@ -1,6 +1,7 @@
 import { Link, NavLink, Navigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { logout } from "../features/authSlice";
+import { showAlert } from "../features/alertSlice";
 
 const Navbar = () => {
   const { isAuthenticated } = useAppSelector((state) => state.auth);
@@ -32,6 +33,12 @@ const Navbar = () => {
                 onClick={() => {
                   dispatch(logout());
                   <Navigate to="/login" />;
+                  dispatch(
+                    showAlert({
+                      msg: "Logout Successfull.",
+                      type: "info",
+                    })
+                  );
                 }}
               >
                 Logout
